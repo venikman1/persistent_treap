@@ -82,4 +82,47 @@ namespace EC {
         size_t subtree_size = 1;
         Data data = Data();
     };
+
+    template <typename Data>
+    class Node<Data> {
+    public:
+        Node() = default;
+
+        Node(Data data) : data(std::move(data)) {
+            update_all();
+        }
+
+
+        static size_t node_size(const Node *node) {
+            return node ? node->get_size() : 0;
+        }
+
+        size_t get_size() const {
+            return subtree_size;
+        }
+
+        const Data &get_data() const {
+            return data;
+        }
+
+        size_t update_size() {
+            return subtree_size = 1 + node_size(left) + node_size(right);
+        }
+
+        size_t get_key(size_t prev_key) const {
+            return node_size(left) + prev_key + 1;
+        }
+
+        void update_all() {
+            update_size();
+        }
+
+
+        const Node *left = nullptr;
+        const Node *right = nullptr;
+
+    private:
+        size_t subtree_size = 1;
+        Data data = Data();
+    };
 }
