@@ -4,7 +4,8 @@
 
 #pragma once
 
-#include "treap.hpp"
+#include "node.hpp"
+#include "persistent_treap_iterator.hpp"
 
 namespace EC {
 
@@ -12,10 +13,21 @@ namespace EC {
     class PersistentTreap {
     public:
         using NodeType = Node<Data, Modifiers ...>;
+        using const_iterator = PersistentTreapInputIterator<Data, Modifiers ...>;
 
         PersistentTreap() {
             versions.push_back(nullptr);
         };
+
+        const_iterator begin(size_t version) const {
+            const_iterator res(versions[version]);
+            res.go_left();
+            return res;
+        }
+
+        const_iterator end(size_t version) const {
+            return const_iterator();
+        }
 
         size_t size(size_t version) const {
             return NodeType::node_size(versions[version]);

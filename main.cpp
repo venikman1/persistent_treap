@@ -34,6 +34,7 @@ struct MinModifier {
     Data min_res = 0;
 };
 
+
 int main() {
     using Sum = SumModifier<long long>;
     using Min = MinModifier<long long>;
@@ -75,28 +76,36 @@ int main() {
 //    cout << "Size is " << arr.size(cur_ver) << "\n";
 //    cout << "Sum is " << arr.get_modifier<Sum>(cur_ver).sum << "\n";
 
-    ProxyTreap<long long, Sum> arr;
+    ProxyTreap<long long, Sum, Min> arr;
 
     arr.append(0);
     arr.append(5);
 
-    for (int i = 0; i < 10; ++i)
-        arr = ProxyTreap<long long, Sum> ::merge(arr, arr);
-    for (int i = 0; i < arr.size(); ++i)
-        cout << "arr[" << i << "] = " << arr[i] << "\n";
+    for (int i = 0; i < 30; ++i)
+        arr = ProxyTreap<long long, Sum, Min> ::merge(arr, arr);
+//    for (int i = 0; i < arr.size(); ++i)
+//        cout << "arr[" << i << "] = " << arr[i] << "\n";
     cout << "Size is " << arr.size() << "\n";
     cout << "Sum is " << arr.get_modifier<Sum>().sum << "\n\n";
 
-    arr[2] = 10000;
-    for (int i = 0; i < arr.size(); ++i)
-        cout << "arr[" << i << "] = " << arr[i] << "\n";
-    cout << "Size is " << arr.size() << "\n";
-    cout << "Sum is " << arr.get_modifier<Sum>().sum << "\n\n";
+    arr[1<<30] = -999999;
+    cout << arr[1<<30] << "\n";
+    cout << arr.get_modifier<Min>().min_res << "\n";
+    for (const auto& a : arr.slice((1<<30) - 10, (1<<30) + 10)) {
+        cout << a << "\n";
+    }
 
-    auto slice = arr.slice(1, 9);
-    for (int i = 0; i < slice.size(); ++i)
-        cout << "arr[" << i << "] = " << slice[i] << "\n";
-    cout << "Size is " << slice.size() << "\n";
-    cout << "Sum is " << slice.get_modifier<Sum>().sum << "\n\n";
+//    arr[2] = 10000;
+//    for (int i = 0; i < arr.size(); ++i)
+//        cout << "arr[" << i << "] = " << arr[i] << "\n";
+//    cout << "Size is " << arr.size() << "\n";
+//    cout << "Sum is " << arr.get_modifier<Sum>().sum << "\n\n";
+//
+//    auto slice = arr.slice(3, 5);
+//    for (int i = 0; i < slice.size(); ++i)
+//        cout << "arr[" << i << "] = " << slice[i] << "\n";
+//    cout << "Size is " << slice.size() << "\n";
+//    cout << "Sum is " << slice.get_modifier<Sum>().sum << "\n\n";
+//    slice[100] = 2;
     return 0;
 }

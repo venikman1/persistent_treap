@@ -37,9 +37,19 @@ namespace EC {
         using NodeType = Node<Data, Modifiers ...>;
         using PersistentTreapType = PersistentTreap<Data, Modifiers ...>;
 
+        using const_iterator = typename PersistentTreapType::const_iterator;
+
         ProxyTreap() : main_treap(new PersistentTreapType)  {current_version = main_treap->last_version();}
         ProxyTreap(std::shared_ptr<PersistentTreapType> pers_treap, size_t version)
         :main_treap(std::move(pers_treap)), current_version(version) {}
+
+        const_iterator begin() const {
+            return main_treap->begin(current_version);
+        }
+
+        const_iterator end() const {
+            return main_treap->end(current_version);
+        }
 
         size_t size() const {
             return main_treap->size(current_version);
