@@ -76,25 +76,6 @@ int main() {
 //    cout << "Size is " << arr.size(cur_ver) << "\n";
 //    cout << "Sum is " << arr.get_modifier<Sum>(cur_ver).sum << "\n";
 
-    ProxyTreap<long long, Sum, Min> arr;
-
-    arr.append(0);
-    arr.append(5);
-
-    for (int i = 0; i < 30; ++i)
-        arr = ProxyTreap<long long, Sum, Min> ::merge(arr, arr);
-//    for (int i = 0; i < arr.size(); ++i)
-//        cout << "arr[" << i << "] = " << arr[i] << "\n";
-    cout << "Size is " << arr.size() << "\n";
-    cout << "Sum is " << arr.get_modifier<Sum>().sum << "\n\n";
-
-    arr[1<<30] = -999999;
-    cout << arr[1<<30] << "\n";
-    cout << arr.get_modifier<Min>().min_res << "\n";
-    for (const auto& a : arr.slice((1<<30) - 10, (1<<30) + 10)) {
-        cout << a << "\n";
-    }
-
 //    arr[2] = 10000;
 //    for (int i = 0; i < arr.size(); ++i)
 //        cout << "arr[" << i << "] = " << arr[i] << "\n";
@@ -107,5 +88,34 @@ int main() {
 //    cout << "Size is " << slice.size() << "\n";
 //    cout << "Sum is " << slice.get_modifier<Sum>().sum << "\n\n";
 //    slice[100] = 2;
+
+
+
+
+
+
+
+
+
+
+
+    using MyArray = ProxyTreap<long long, Sum, Min>;
+
+    MyArray arr;
+
+    for (int i = 0; i < 10; ++i) {
+        arr.append(i);
+    }
+    for (int i = 0; i < 30; ++i) {
+        arr = arr.merge(arr, arr);
+    }
+
+    cout << arr.size() << "\n";
+    for (auto a : arr.slice(1231232133, 1231232133 + 10))
+        cout << a << " ";
+    cout << "\n";
+    cout << arr.slice(1231232133, 1231232133 + 10).get_modifier<Min>().min_res << "\n";
+    arr[1231232133] = -2311313131313;
+    cout << arr.slice(1231232133, 1231232133 + 10).get_modifier<Min>().min_res << "\n";
     return 0;
 }
